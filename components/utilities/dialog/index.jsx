@@ -188,23 +188,13 @@ const Dialog = createReactClass({
 	},
 
 	componentDidMount () {
-		if (
-			this.props.position === 'absolute' ||
-			this.props.position === 'relative'
-		) {
+		if (this.props.position === 'absolute' || this.props.position === 'relative') {
 			this.handleOpen();
 		}
 	},
 
 	componentDidUpdate (prevProps, prevState) {
-		if (
-			this.state.triggerPopperJS === true &&
-			prevState.triggerPopperJS === false &&
-			(this.props.position === 'absolute' ||
-				this.props.position === 'overflowBoundaryElement') &&
-			this.dialogContent &&
-			this.props.onRequestTargetElement()
-		) {
+		if (this.state.triggerPopperJS === true && prevState.triggerPopperJS === false && (this.props.position === 'absolute' || this.props.position === 'overflowBoundaryElement') && this.dialogContent && this.props.onRequestTargetElement()) {
 			this.createPopper();
 		}
 	},
@@ -246,7 +236,8 @@ const Dialog = createReactClass({
 		const { position } = popperData.offsets.popper;
 		const left = `${popperData.offsets.popper.left + propOffsets.horizontal}px`;
 		const top = `${popperData.offsets.popper.top + propOffsets.vertical}px`;
-		return { ...popperData.style, left, top, position };
+		const right = 'inherit';
+		return { ...popperData.style, left, top, right, position };
 	},
 
 	// Render
@@ -372,24 +363,16 @@ const Dialog = createReactClass({
 	render () {
 		let style = {};
 
-		if (
-			this.props.position === 'absolute' ||
-			this.props.position === 'overflowBoundaryElement'
-		) {
+		if (this.props.position === 'absolute' || this.props.position === 'overflowBoundaryElement') {
+			debugger;
 			style = this.getPopperStyles();
 		}
 
-		if (
-			this.props.inheritWidthOf === 'target' &&
-			this.props.onRequestTargetElement()
-		) {
+		if (this.props.inheritWidthOf === 'target' && this.props.onRequestTargetElement()) {
 			style.width = this.props
 				.onRequestTargetElement()
 				.getBoundingClientRect().width;
-		} else if (
-			this.props.inheritWidthOf === 'menu' &&
-			this.dialogContent &&
-			this.dialogContent.querySelector('.slds-listbox')
+		} else if (this.props.inheritWidthOf === 'menu' && this.dialogContent && this.dialogContent.querySelector('.slds-listbox')
 		) {
 			// inherit menu renderer width
 			style.width = this.dialogContent
