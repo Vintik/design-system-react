@@ -64,6 +64,7 @@ overlay.style.position = 'absolute';
 
 let currentOpenPopover;
 
+// FIXME - what is this exported for? Probably needs to be deprecated.
 const PopoverNubbinPositions = [
 	'top left',
 	'top',
@@ -434,6 +435,7 @@ const Popover = createReactClass({
 
 		return isOpen ? (
 			<Dialog
+				hasNubbin
 				align={props.align}
 				contentsClassName={classNames(
 					this.props.contentsClassName,
@@ -554,7 +556,7 @@ const Popover = createReactClass({
 
 		this.renderOverlay(this.getIsOpen());
 
-		const containerStyles = { display: 'inline' };
+		const containerStyles = { width: 100, height: 100, border: '1px solid black', display: 'inline-block' }; // ATTN FIXME - can we make this change??!
 		return (
 			<div
 				className={this.props.triggerClassName}
