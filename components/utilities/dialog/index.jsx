@@ -229,7 +229,7 @@ const Dialog = createReactClass({
 	},
 
 	getPopperStyles () {
-		const { popperData, nubbinMargins } = this.state;
+		const { popperData } = this.state;
 		if (!this.popper || !popperData) {
 			return {
 				position: 'absolute',
@@ -237,14 +237,17 @@ const Dialog = createReactClass({
 			};
 		}
 
-		console.log(nubbinMargins)
-
-		const propOffsets = this.getPropOffsetsInPixels(this.props.offset);
 		const { position } = popperData.offsets.popper;
+		const propOffsets = this.getPropOffsetsInPixels(this.props.offset);
+
+		// FIXME before merge - gotta rename from margin to offset
+		const nubbinMargins = this.props.hasNubbin ?
+			getNubbinMargins(this.state.popperData.offsets, this.props.align) : {};
+
 		const left = `${popperData.offsets.popper.left + propOffsets.horizontal}px`;
 		const top = `${popperData.offsets.popper.top + propOffsets.vertical}px`;
 		const right = 'inherit';
-		return { ...popperData.style, ...nubbinMargins, left, top, right, position };
+		return { ...popperData.style, left, top, right, position };
 	},
 
 	// Render
@@ -335,13 +338,9 @@ const Dialog = createReactClass({
 				order: 900,
 				fn: (popperData) => {
 					if ((this.state.popperData && !isEqual(popperData.offsets, this.state.popperData.offsets)) || !this.state.popperData) {
-						const nubbinMargins = this.props.hasNubbin ?
-							getNubbinMargins(popperData.instance.reference, this.props.align) : {};
-						console.log(nubbinMargins);
 
 						this.setState({
 							popperData,
-							nubbinMargins
 						});
 					}
 					return popperData;
@@ -374,9 +373,11 @@ const Dialog = createReactClass({
 		let style = {};
 
 		if (this.props.position === 'absolute' || this.props.position === 'overflowBoundaryElement') {
-			style = this.getPopperStyles();
+
 			Object.assign(style, {
 				outline: 0,
+				// ...nubbinMargins,
+				...this.getPopperStyles(),
 			});
 		}
 
@@ -393,7 +394,7 @@ const Dialog = createReactClass({
 		}
 
 		if (this.props.style) {
-			style = Object.assign(style, this.props.style);
+			Object.assign(style, this.props.style);
 		}
 
 		const contents = (
