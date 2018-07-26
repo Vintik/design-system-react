@@ -10,6 +10,7 @@ import PopoverTooltip from '../../popover-tooltip';
 import ButtonGroupExample from '../__examples__/button-group';
 import ButtonExample from '../__examples__/button';
 import LearnMoreExample from '../__examples__/learn-more';
+import WTFExample from '../__examples__/wtf';
 
 import Icon from '../../icon';
 import Button from '../../button';
@@ -56,10 +57,6 @@ storiesOf(POPOVER_TOOLTIP, module)
 	.addDecorator((getStory) => (
 		<div
 			className="slds-p-around--medium slds-m-horizontal--x-large"
-			style={{
-				margin: '150px auto',
-				width: '500px',
-			}}
 		>
 			<IconSettings iconPath="/assets/icons">{getStory()}</IconSettings>
 		</div>
@@ -72,6 +69,7 @@ storiesOf(POPOVER_TOOLTIP, module)
 				'wjeifowejfiwoefjweoifjweiofjweiofwjefiowejfiowejfiowefjweiofjweiofjweiofjiwoefjowiefjoiwejfiowejfoie',
 		})
 	)
+	.add('wtf', () => <WTFExample />)
 	.add('Learn More', () => <LearnMoreExample />)
 	.add('Button Group', () => <ButtonGroupExample />)
 	.add('Button', () => <ButtonExample />)
